@@ -1,0 +1,55 @@
+apiVersion: v3.2.0
+kind: DataContract
+id: urn:dataplatform:ds_embed_probe
+name: Embed probe (synthetic notes)
+version: 0.1.0
+status: active
+domain: test
+description:
+  purpose: Test fixture for the Host capabilities x-embed, maxBytes and ODCS references.
+  usage: Read through the Tools of the embed-probe package; synthetic data only.
+  limitations: Not real data; the vectors are deterministic and carry no meaning.
+team:
+  name: 0ics data platform
+  members:
+    - username: operator
+      role: owner
+customProperties:
+  - property: license
+    value: CC0-1.0
+  - property: references
+    value:
+      dataset: letaky
+      field: notes.id
+      identifierScheme: probe
+schema:
+  - name: notes
+    physicalName: notes
+    description: Synthetic note with a deterministic embedding.
+    customProperties:
+      - property: search
+        value: vector
+      - property: embeddingField
+        value: embedding
+    properties:
+      - name: id
+        logicalType: integer
+        physicalType: integer
+        primaryKey: true
+      - name: body
+        logicalType: string
+        physicalType: text
+      - name: embedding
+        logicalType: array
+        physicalType: vector(1024)
+  - name: blobs
+    physicalName: blobs
+    description: Rows with long texts for the maxBytes Tool.
+    properties:
+      - name: id
+        logicalType: integer
+        physicalType: integer
+        primaryKey: true
+      - name: body
+        logicalType: string
+        physicalType: text

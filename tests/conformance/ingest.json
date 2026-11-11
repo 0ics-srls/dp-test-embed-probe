@@ -1,0 +1,12 @@
+{
+  "check": { "dryRun": true },
+  "run": {
+    "dryRun": true,
+    "dirIn": "/tmp/dp-letaky-empty",
+    "sourceId": "00000000-0000-0000-0000-000000000001",
+    "batchId": "conformance",
+    "packageVersion": "conformance",
+    "items": []
+  },
+  "expect": { "minItems": 0 }
+}

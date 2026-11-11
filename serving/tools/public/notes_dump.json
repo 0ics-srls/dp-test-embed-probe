@@ -1,0 +1,10 @@
+{
+  "description": "All long-text rows of the probe, capped by maxBytes (600). No parameters.",
+  "version": 1,
+  "parameters": { "type": "object", "properties": {} },
+  "annotations": { "readOnlyHint": true, "idempotentHint": true },
+  "maxRows": 100,
+  "maxBytes": 600,
+  "timeoutMs": 3000,
+  "pagination": "none"
+}

@@ -1,0 +1,18 @@
+{
+  "description": "Hybrid search over the synthetic notes: vector order when the query could be embedded, lexical order otherwise. Parameters: query (required). Example: {\"query\": \"banana\"}.",
+  "version": 1,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "x-embed": { "into": "q_vec", "column": "notes.embedding", "model": "jina-embeddings-v3" }
+      }
+    },
+    "required": ["query"]
+  },
+  "annotations": { "readOnlyHint": true, "idempotentHint": true },
+  "maxRows": 10,
+  "timeoutMs": 3000,
+  "pagination": "none"
+}
