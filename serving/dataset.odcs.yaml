@@ -53,3 +53,17 @@ schema:
       - name: body
         logicalType: string
         physicalType: text
+  - name: passages
+    physicalName: passages
+    description: Passages embedded by the shared class dp-lex-embed.
+    properties:
+      - name: id
+        logicalType: integer
+        physicalType: integer
+        primaryKey: true
+      - name: body
+        logicalType: string
+        physicalType: text
+      - name: embedding
+        logicalType: array
+        physicalType: vector(1024)

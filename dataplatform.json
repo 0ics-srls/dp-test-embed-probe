@@ -1,12 +1,29 @@
 {
   "$schema": "https://schemas.dataplatform.0ics.ai/dataplatform/1.json",
   "name": "embed-probe",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "hostApi": "1",
   "sources": [
     {
       "title": "Synthetic notes (test fixture)",
       "licenses": [{ "name": "CC0-1.0", "title": "Synthetic data, no restrictions" }]
+    }
+  ],
+  "sourceTypes": [
+    {
+      "key": "probe",
+      "title": "Embed probe",
+      "configSchema": {
+        "type": "object",
+        "properties": {
+          "tokenBudget": { "type": "integer", "minimum": 0, "default": 200, "description": "Hard stop of embedding tokens per Run" },
+          "embedDryRun": { "type": "boolean", "default": true, "description": "Count pending passages and estimated tokens only" }
+        }
+      },
+      "x-ui": {
+        "order": ["tokenBudget", "embedDryRun"],
+        "labels": { "tokenBudget": "Token budget", "embedDryRun": "Dry run (no Jina call)" }
+      }
     }
   ],
   "pipeline": [
@@ -28,6 +45,27 @@
       "timeout": "PT5M",
       "heartbeatMaxSeconds": 300,
       "produces": []
+    },
+    {
+      "step": "embed",
+      "class": "git:github.com/0ics-srls/dp-lex-embed@dp-p7.1",
+      "db": "dataset",
+      "secrets": ["JINA_API_KEY"],
+      "params": {
+        "connString": "${dataset.connString}",
+        "table": "ds_embed_probe.passages",
+        "keyColumn": "id",
+        "textColumns": ["body"],
+        "vectorColumn": "embedding",
+        "tokenBudget": "${source.config.tokenBudget}",
+        "dryRun": "${source.config.embedDryRun}",
+        "batchSize": 3,
+        "jinaApiKey": "${secret.JINA_API_KEY}"
+      },
+      "retry": { "type": "exponential", "maxAttempts": 2, "interval": "PT1M" },
+      "timeout": "PT10M",
+      "heartbeatMaxSeconds": 300,
+      "produces": ["ds_embed_probe.passages"]
     }
   ],
   "dataset": { "schema": "ds_embed_probe", "migrations": "schema/migrations", "contract": "serving/dataset.odcs.yaml" }

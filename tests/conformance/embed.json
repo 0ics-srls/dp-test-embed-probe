@@ -1,0 +1,8 @@
+{
+  "check": { "dryRun": true },
+  "run": {
+    "dryRun": true,
+    "table": "ds_embed_probe.passages"
+  },
+  "expect": { "minItems": 0 }
+}
